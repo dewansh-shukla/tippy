@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-prata: "Prata", serif;
+  --font-geist-mono: "Geist Mono", monospace;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 248 58% 100%;
+    --foreground: 248 57% 0%;
+    --muted: 248 8% 95%;
+    --muted-foreground: 248 12% 26%;
+    --popover: 248 58% 100%;
+    --popover-foreground: 248 57% 0%;
+    --card: 248 58% 100%;
+    --card-foreground: 248 57% 0%;
+    --border: 248 3% 92%;
+    --input: 248 3% 92%;
+    --primary: 248 75% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 248 7% 92%;
+    --secondary-foreground: 248 7% 32%;
+    --accent: 248 14% 85%;
+    --accent-foreground: 248 14% 25%;
+    --destructive: 7 88% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 248 75% 54%;
+    --chart-1: 248 75% 54%;
+    --chart-2: 248 7% 92%;
+    --chart-3: 248 14% 85%;
+    --chart-4: 248 7% 95%;
+    --chart-5: 248 78% 54%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 248 51% 0%;
+    --foreground: 248 13% 97%;
+    --muted: 248 8% 5%;
+    --muted-foreground: 248 12% 74%;
+    --popover: 248 51% 0%;
+    --popover-foreground: 248 13% 97%;
+    --card: 248 51% 0%;
+    --card-foreground: 248 13% 97%;
+    --border: 248 3% 12%;
+    --input: 248 3% 12%;
+    --primary: 248 75% 54%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 248 5% 13%;
+    --secondary-foreground: 248 5% 73%;
+    --accent: 248 11% 18%;
+    --accent-foreground: 248 11% 78%;
+    --destructive: 7 88% 59%;
+    --destructive-foreground: 0 0% 100%;
+    --ring: 248 75% 54%;
+    --chart-1: 248 75% 54%;
+    --chart-2: 248 5% 13%;
+    --chart-3: 248 11% 18%;
+    --chart-4: 248 5% 16%;
+    --chart-5: 248 78% 54%;
+  }
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
