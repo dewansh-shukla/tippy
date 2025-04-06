@@ -24,32 +24,64 @@ export const useAuth = () => useContext(AuthContext);
 // List of public routes that don't require authentication
 const PUBLIC_ROUTES = ["/", "/api", "/api/fetch-account"];
 
+// Storage key for last authenticated path
+const LAST_PATH_KEY = "lastAuthenticatedPath";
+
 // Auth provider component
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { address, isConnected } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
+  const [wasConnected, setWasConnected] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  // Effect to track connection state changes
+  useEffect(() => {
+    if (isConnected) {
+      // When connected, update wasConnected state and save current path
+      setWasConnected(true);
+      if (!PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(`${route}/`))) {
+        // Only save protected routes
+        localStorage.setItem(LAST_PATH_KEY, pathname);
+      }
+    }
+  }, [isConnected, pathname]);
+
+  // Effect for initial loading state
   useEffect(() => {
     // Small delay to ensure wallet connection is properly detected
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 1000); // Increased timeout to give more time for wallet connection
 
     return () => clearTimeout(timer);
   }, []);
 
+  // Check for reconnection scenario on initial load
   useEffect(() => {
-    // Check if the current route is protected and user is not authenticated
     if (!isLoading && !isConnected) {
+      const lastPath = localStorage.getItem(LAST_PATH_KEY);
       const isPublicRoute = PUBLIC_ROUTES.some(route => {
-        // Check exact match or if it's a subpath of a public route with trailing slash
         return pathname === route || pathname.startsWith(`${route}/`);
       });
 
-      if (!isPublicRoute) {
+      // Only redirect if:
+      // 1. User is on a protected route
+      // 2. This isn't a refresh scenario (wasConnected is false)
+      // 3. There's no saved path from a previous session
+      if (!isPublicRoute && !wasConnected && (!lastPath || lastPath === "/")) {
         router.push("/");
+      }
+    }
+  }, [isConnected, isLoading, pathname, router, wasConnected]);
+
+  // If the user reconnects, restore their last path
+  useEffect(() => {
+    if (!isLoading && isConnected) {
+      const lastPath = localStorage.getItem(LAST_PATH_KEY);
+      // If user is on home page but was previously on a protected route, redirect them back
+      if (pathname === "/" && lastPath && lastPath !== "/" && lastPath !== pathname) {
+        router.push(lastPath);
       }
     }
   }, [isConnected, isLoading, pathname, router]);

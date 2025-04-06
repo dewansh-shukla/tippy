@@ -1,9 +1,34 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuth } from "@/lib/auth";
+import { useRouter } from "next/navigation";
 
 export default function ProfilePage() {
+  const { isAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+  
+  // Redirect if not authenticated (backup protection)
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <div className="container mx-auto py-8 px-4 flex justify-center items-center min-h-[60vh]">
+        <p className="text-lg font-geist-mono">Loading your profile...</p>
+      </div>
+    );
+  }
+
+  // Don't render anything if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null;
+  }
+  
   return <ProfileContent />;
 }
 

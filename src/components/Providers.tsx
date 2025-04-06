@@ -4,7 +4,7 @@ import React from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { getDefaultConfig, RainbowKitProvider, darkTheme} from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import { mainnet, polygon, optimism, arbitrum, base } from "wagmi/chains";
+import { berachain } from "wagmi/chains";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "@/lib/auth";
 
@@ -12,7 +12,7 @@ import { AuthProvider } from "@/lib/auth";
 const config = getDefaultConfig({
   appName: "Bera Tip",
   projectId: process.env.NEXT_PUBLIC_PROJECT_ID as string,
-  chains: [mainnet, polygon, optimism, arbitrum, base],
+  chains: [berachain],
   ssr: true, // If your dApp uses server side rendering (SSR)
 });
 
@@ -26,7 +26,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <RainbowKitProvider theme={darkTheme()}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="system"
+            defaultTheme="light"
             enableSystem
             disableTransitionOnChange
           >
