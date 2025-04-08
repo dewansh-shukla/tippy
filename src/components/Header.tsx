@@ -24,12 +24,12 @@ const Header = () => {
                 >
                   Dashboard
                 </Link>
-                <Link
+                {/* <Link
                   href="/profile"
                   className="transition-colors font-geist-mono"
                 >
                   Profile
-                </Link>
+                </Link> */}
               </>
             )}
           </nav>

@@ -31,56 +31,45 @@ const LAST_PATH_KEY = "lastAuthenticatedPath";
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const { address, isConnected } = useAccount();
   const [isLoading, setIsLoading] = useState(true);
-  const [wasConnected, setWasConnected] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  // Effect to track connection state changes
+  // Effect to store the last authenticated path
   useEffect(() => {
     if (isConnected) {
-      // When connected, update wasConnected state and save current path
-      setWasConnected(true);
+      // Only save non-public routes to localStorage
       if (!PUBLIC_ROUTES.some(route => pathname === route || pathname.startsWith(`${route}/`))) {
-        // Only save protected routes
         localStorage.setItem(LAST_PATH_KEY, pathname);
       }
     }
   }, [isConnected, pathname]);
 
-  // Effect for initial loading state
+  // Handle initial loading and connection state
   useEffect(() => {
-    // Small delay to ensure wallet connection is properly detected
+    // Reset loading state after a short delay to ensure wagmi has time to initialize
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Increased timeout to give more time for wallet connection
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
 
-  // Check for reconnection scenario on initial load
+  // Handle route protection and redirects
   useEffect(() => {
-    if (!isLoading && !isConnected) {
-      const lastPath = localStorage.getItem(LAST_PATH_KEY);
-      const isPublicRoute = PUBLIC_ROUTES.some(route => {
-        return pathname === route || pathname.startsWith(`${route}/`);
-      });
+    // Only proceed if we're done loading
+    if (isLoading) return;
 
-      // Only redirect if:
-      // 1. User is on a protected route
-      // 2. This isn't a refresh scenario (wasConnected is false)
-      // 3. There's no saved path from a previous session
-      if (!isPublicRoute && !wasConnected && (!lastPath || lastPath === "/")) {
-        router.push("/");
-      }
-    }
-  }, [isConnected, isLoading, pathname, router, wasConnected]);
+    const isPublicRoute = PUBLIC_ROUTES.some(route => 
+      pathname === route || pathname.startsWith(`${route}/`)
+    );
 
-  // If the user reconnects, restore their last path
-  useEffect(() => {
-    if (!isLoading && isConnected) {
+    if (!isConnected && !isPublicRoute) {
+      // User is not connected and trying to access a protected route - redirect to home
+      router.push("/");
+    } else if (isConnected && pathname === "/") {
+      // User is connected and on the home page - check if we should redirect to previous page
       const lastPath = localStorage.getItem(LAST_PATH_KEY);
-      // If user is on home page but was previously on a protected route, redirect them back
-      if (pathname === "/" && lastPath && lastPath !== "/" && lastPath !== pathname) {
+      if (lastPath && lastPath !== "/" && lastPath !== pathname) {
         router.push(lastPath);
       }
     }
@@ -104,25 +93,31 @@ export function withAuth<P extends object>(
     const { isAuthenticated, isLoading } = useAuth();
     const router = useRouter();
 
+    // Effect to handle protection logic
     useEffect(() => {
-      if ((!isLoading && !isAuthenticated)) {
+      // Only redirect after loading is complete and we know user is not authenticated
+      if (!isLoading && !isAuthenticated) {
         router.push("/");
       }
     }, [isAuthenticated, isLoading, router]);
 
-    // Show nothing while checking authentication
+    // Show loading state while checking authentication
     if (isLoading) {
       return <div className="flex justify-center items-center h-screen">Loading...</div>;
     }
 
-    // If not authenticated, this will redirect, but we still need to return something
+    // Show redirecting message if not authenticated
     if (!isAuthenticated) {
       return <div className="flex justify-center items-center h-screen">Redirecting...</div>;
     }
 
-    // If authenticated, render the protected component
+    // Render the protected component if authenticated
     return <Component {...props} />;
   };
 
+  // Set display name for debugging
+  const displayName = Component.displayName || Component.name || "Component";
+  ProtectedRoute.displayName = `withAuth(${displayName})`;
+
   return ProtectedRoute;
-} 
+}
