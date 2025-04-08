@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 export function Hero() {
   return (
@@ -9,11 +10,11 @@ export function Hero() {
         <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground">
+              <h1 className="text-3xl font-semibold tracking-tighter sm:text-5xl xl:text-6xl/none text-foreground font-geist-mono">
                 Tip Your Favorite Creators with Crypto
               </h1>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                BiraTip makes it easy to support content creators with cryptocurrency. Simple, secure, and
+                BeraTip makes it easy to support content creators with cryptocurrency. Simple, secure, and
                 decentralized.
               </p>
             </div>
@@ -30,11 +31,8 @@ export function Hero() {
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="relative w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-lg overflow-hidden bg-muted">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-background/5 z-10"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-4xl font-bold text-primary/80 font-geist-mono">BiraTip</div>
-              </div>
+            <div className="relative bg-transparent w-full h-[300px] md:h-[400px] lg:h-[500px] rounded-lg overflow-hidden">
+              <Image src="/images/hero.png" alt="Hero" width={500} height={500} className="object-cover" />
             </div>
           </div>
         </div>

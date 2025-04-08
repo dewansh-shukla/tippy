@@ -49,7 +49,7 @@ export function Features() {
               Features
             </h2>
             <p className="max-w-[900px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              BiraTip provides everything you need to support your favorite
+              BeraTip provides everything you need to support your favorite
               creators with cryptocurrency
             </p>
           </div>

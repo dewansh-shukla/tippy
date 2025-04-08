@@ -4,20 +4,20 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 export function Testimonials() {
   const testimonials = [
     {
-      quote: "BiraTip has completely changed how I support my favorite content creators. It's so easy to use!",
+      quote: "BeraTip has completely changed how I support my favorite content creators. It's so easy to use!",
       name: "Alex Johnson",
       role: "Crypto Enthusiast",
       avatar: "AJ",
     },
     {
-      quote: "As a creator, receiving tips through BiraTip has been seamless. The platform is intuitive and secure.",
+      quote: "As a creator, receiving tips through BeraTip has been seamless. The platform is intuitive and secure.",
       name: "Maria Garcia",
       role: "Digital Artist",
       avatar: "MG",
     },
     {
       quote:
-        "I love being able to support creators directly without intermediaries taking a cut. BiraTip is the future.",
+        "I love being able to support creators directly without intermediaries taking a cut. BeraTip is the future.",
       name: "Sam Wilson",
       role: "Tech Blogger",
       avatar: "SW",

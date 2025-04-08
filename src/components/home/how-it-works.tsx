@@ -6,7 +6,7 @@ export function HowItWorks() {
     {
       number: "01",
       title: "Connect Your Wallet",
-      description: "Link your cryptocurrency wallet to BiraTip with just a few clicks.",
+      description: "Link your cryptocurrency wallet to BeraTip with just a few clicks.",
     },
     {
       number: "02",

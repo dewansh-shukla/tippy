@@ -8,10 +8,10 @@ const Header = () => {
   const { isAuthenticated } = useAuth();
 
   return (
-    <header className="w-full px-6 flex justify-center">
-      <div className="w-3/4 p-4 bg-secondary mt-2 rounded-lg flex justify-between items-center  border-b border-gray-200 dark:border-gray-800">
-        <Link href="/" className="w-1/4 text-xl font-bold font-dm-sans">
-          Bera Tip
+    <header className="w-full flex justify-center">
+      <div className="w-full p-4 bg-primary text-white flex justify-between items-center  border-b border-gray-200 dark:border-gray-800">
+        <Link href="/" className="w-1/4 text-xl font-bold font-geist-mono">
+          BeraTip
         </Link>
 
         <div className="flex w-3/4 items-center justify-end space-x-4">
@@ -20,13 +20,13 @@ const Header = () => {
               <>
                 <Link
                   href="/dashboard"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors font-geist-mono"
                 >
                   Dashboard
                 </Link>
                 <Link
                   href="/profile"
-                  className="hover:text-primary transition-colors"
+                  className="transition-colors font-geist-mono"
                 >
                   Profile
                 </Link>
